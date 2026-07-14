@@ -1,4 +1,4 @@
-# eandsinternship
+# eands
 
 A new Flutter project.
 
