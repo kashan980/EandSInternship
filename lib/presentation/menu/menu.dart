@@ -55,6 +55,10 @@ class AppButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final double borderRadius;
+  final bool isEnabled;
+  final bool showIcon ;
+
+
 
   const AppButton({
     super.key,
@@ -62,16 +66,18 @@ class AppButton extends StatelessWidget {
     this.backgroundColor = Colors.red,
     this.textColor = Colors.white,
     this.borderRadius = 8.0,
+    this.isEnabled =false,
+    this.showIcon=false,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap:isEnabled?   () {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Button "$text" tapped!')));
-      },
+      }:null,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
@@ -81,6 +87,7 @@ class AppButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            if(showIcon)
             Icon(Icons.touch_app, color: textColor),
             const SizedBox(width: 10),
             Text(
