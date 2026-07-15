@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "373089680388",
+    "project_id": "eands-internship-2026",
+    "storage_bucket": "eands-internship-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373089680388:android:265b9a0086f57470edc951",
+        "android_client_info": {
+          "package_name": "com.example.eandsinternship"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD75tSoNV2HS9aw1SGnfFJx8LzprEPxFH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
