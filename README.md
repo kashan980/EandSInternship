@@ -70,7 +70,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-- Added `go_router` for app navigation.
-- Configured routes in `app_routes.dart`.
-- Created `route_helper_utils.dart` for route helpers.
-- Integrated routing using `MaterialApp.router`.
+### Added `go_router` for app navigation.
+### Configured routes in `app_routes.dart`.
+### Created `route_helper_utils.dart` for route helpers.
+### Integrated routing using `MaterialApp.router`.
