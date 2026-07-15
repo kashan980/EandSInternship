@@ -70,6 +70,7 @@ class AppButton extends StatelessWidget {
     this.borderRadius = 8.0,
     this.isEnabled = false,
     this.showIcon = false,
+
   });
 
   @override

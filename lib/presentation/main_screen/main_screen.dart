@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../menu/menu.dart';
+import 'package:go_router/go_router.dart';
+
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -7,14 +9,13 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Main Screen")),
+      appBar: AppBar(
+        title: const Text("Main Screen"),
+      ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Menu()),
-            );
+            context.go('/menu');
           },
           child: const Text("Open Menu"),
         ),
