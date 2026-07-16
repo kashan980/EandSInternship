@@ -140,6 +140,19 @@ print("User opened the notification");
 });
 
 
+### Steps on side of firebase 
+- open devops and engagement 
+- 
+
+### push the changes
+- git push -u origin feature/HA/firebase_push_notifications
+- messaging
+- then create a compaign for messages 
+
+### command to push on github
+-  git push -u origin feature/HA/firebase_push_notifications
+
+
 
 
 

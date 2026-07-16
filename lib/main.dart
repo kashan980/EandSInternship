@@ -4,13 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'config/routes/app_routes.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  print("Background notification received");
+  debugPrint("Background notification received");
 }
 
 void main() async {
@@ -31,21 +33,21 @@ void main() async {
   );
 
   String? token = await FirebaseMessaging.instance.getToken();
-  print(token);
+  debugPrint(token);
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print("Notification received!");
-    print("Title: ${message.notification?.title}");
-    print("Body: ${message.notification?.body}");
+    debugPrint("Notification received!");
+    debugPrint("Title: ${message.notification?.title}");
+    debugPrint("Body: ${message.notification?.body}");
   });
 
-  FirebaseMessaging.onBackgroundMessage(
-    firebaseMessagingBackgroundHandler,
-  );
+
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print("User opened the notification");
+    debugPrint("User opened the notification");
   });
+
+
 
   runApp(MyApp());
 }
