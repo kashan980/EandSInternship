@@ -75,3 +75,74 @@ samples, guidance on mobile development, and a full API reference.
 ### Configured routes in `app_routes.dart`.
 ### Created `route_helper_utils.dart` for route helpers.
 ### Integrated routing using `MaterialApp.router`.
+
+
+
+### Implementing the ability to receive the push notifications from the firebase
+
+### 1.Git Commands for making feature of push notifications
+-  git checkout -b feature/HA/firebase_push_notifications
+
+
+### 2.Adding depenencies in pubspec.yaml
+firebase_core: ^4.0.0
+firebase_messaging: ^16.0.0
+flutter_local_notifications: ^19.4.0
+
+### 3.write the command 
+- flutter pub get 
+
+### 4. go in build.gradle.kts inside andriod 
+- in this file inside **compile options** add this command 
+- isCoreLibraryDesugaringEnabled = true
+
+### 5.At the bottom of the file, just above:
+
+flutter {
+source = "../.."
+}
+- add
+  dependencies {
+  coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+  }
+
+### 6. Add permission on andriod 
+- <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+### 7. To get device token add this in main
+String? token = await FirebaseMessaging.instance.getToken();
+print(token);
+
+### 8. To listen for messages (for foreground notifications) add this in main 
+FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+print(message.notification?.title);
+print(message.notification?.body);
+});
+
+### 9. Add the code of bakground notifications in main 
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+await Firebase.initializeApp(
+options: DefaultFirebaseOptions.currentPlatform,
+);
+
+print("Background notification received");
+
+### 10 Then call it in main
+FirebaseMessaging.onBackgroundMessage(
+firebaseMessagingBackgroundHandler,
+);
+
+### 11 Then the code to detect when use tap the notifications (add in main) 
+
+FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+print("User opened the notification");
+});
+
+
+
+
+
+
+
+
