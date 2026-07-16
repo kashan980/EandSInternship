@@ -41,6 +41,46 @@ dart pub global run flutterfire_cli:flutterfire configure
 ### 6. Initialize Firebase in Code
 Update `lib/main.dart` to initialize Firebase before the app runs:
 ```dart
+Firebase Crashlytics Integration
+Crashlytics is a real-time crash reporting tool that helps track, prioritize, and fix stability issues that degrade app quality. It acts as a production observability system to capture fatal errors and stack traces when the app is running on a user's device.
+
+1. Feature Branch Initialization
+All Crashlytics integration was developed on a dedicated feature branch to protect the main codebase:
+
+Bash
+git checkout -b feature/KS/firebase_crashlytics
+2. Install the Package
+Add the Crashlytics dependency to the project:
+
+Bash
+flutter pub add firebase_crashlytics
+3. Global Error Handling Configuration
+To ensure all application errors are routed to the Firebase Console, lib/main.dart was updated with the following configuration:
+
+Dart
+import 'dart:ui';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
+// Inside main() after Firebase.initializeApp:
+
+// Pass all uncaught "fatal" errors from the framework to Crashlytics
+FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+// Pass all uncaught asynchronous errors that aren't handled by the framework to Crashlytics
+PlatformDispatcher.instance.onError = (error, stack) {
+FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+return true;
+};
+4. Triggering a Test Crash
+To verify the integration, a temporary button was added to the UI to force a fatal exception:
+
+Dart
+TextButton(
+onPressed: () => FirebaseCrashlytics.instance.crash(),
+child: const Text("Force Firebase Crash"),
+)
+Note: The application must be restarted after a crash to successfully upload the stack trace to the Firebase Console.
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -52,6 +92,8 @@ void main() async {
   
   // App initialization continues here...
 }
+
+
 ```
 
 ---
