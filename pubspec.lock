@@ -193,6 +193,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.14"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      sha256: ea2bad3c89a27635ce2d85cce4d6b199da49a5a48ec77b03e45b65a3b90922b0
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.10.0"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: dd58dc3861eb36edb13b217efc006a1c21e5bbc341de8c229b85634fa5e362e4
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   fake_async:
     dependency: transitive
     description:
@@ -241,7 +257,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.9.1"
-<<<<<<< HEAD
+  firebase_crashlytics:
+    dependency: "direct main"
+    description:
+      name: firebase_crashlytics
+      sha256: "9855d3e2286c3e4439cf7d48c740bdf282ac165f29c7551dcdaf121925c59a28"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.6"
+  firebase_crashlytics_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_crashlytics_platform_interface
+      sha256: aab14de92555ccf8c8616fc1b649272aef04dadb07f986e166e1d36d158f7bd1
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.8.26"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -266,24 +297,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.3"
-=======
-  firebase_crashlytics:
-    dependency: "direct main"
-    description:
-      name: firebase_crashlytics
-      sha256: "9855d3e2286c3e4439cf7d48c740bdf282ac165f29c7551dcdaf121925c59a28"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.6"
-  firebase_crashlytics_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_crashlytics_platform_interface
-      sha256: aab14de92555ccf8c8616fc1b649272aef04dadb07f986e166e1d36d158f7bd1
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.8.26"
->>>>>>> d7cd39cadd1d9ef5c3f05b2fccc1df032debe483
   fixnum:
     dependency: transitive
     description:
