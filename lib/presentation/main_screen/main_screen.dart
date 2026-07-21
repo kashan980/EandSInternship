@@ -1,4 +1,5 @@
 import 'package:eandsinternship/config/routes/app_routes.dart';
+import 'package:eandsinternship/presentation/api_call/api_call.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart'; // Added Crashlytics import
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,16 @@ class MainScreen extends StatelessWidget {
               onPressed: () => FirebaseCrashlytics.instance.crash(),
               child: const Text("Force Firebase Crash"),
             ),
+            TextButton(
+                onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=> Api_Call()),
+              );
+            },
+              child: const Text("Call API Screen"),
+
+            )
           ],
         ),
       ),
