@@ -16,7 +16,6 @@ class Api_Call extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // 2. This listener decides whether to show the text or a loading spinner
             ValueListenableBuilder(
               valueListenable: loadingNotifier,
               builder: (context, isLoading, child) {
@@ -57,8 +56,9 @@ class Api_Call extends StatelessWidget {
 
   void fetchData() async {
     var dio = Dio();
+    dio.options.connectTimeout = const Duration(seconds: 10);
+    dio.options.receiveTimeout = const Duration(seconds: 10);
 
-    // 3. Turn the loader ON before communication starts
     loadingNotifier.value = true;
 
     try {
@@ -69,19 +69,20 @@ class Api_Call extends StatelessWidget {
       textNotifier.value = response.data['responseMessage'].toString();
 
     } on DioException catch (e) {
+      handleNetworkError(e);
       debugPrint('Error Status Code ${e.response?.statusCode}');
       debugPrint('Error Response Body ${e.response?.data}');
       textNotifier.value = "Fetch failed!";
     }
 
-    // 4. Turn the loader OFF when communication finishes
     loadingNotifier.value = false;
   }
 
   void postData() async {
     var dio = Dio();
+    dio.options.connectTimeout = const Duration(seconds: 10);
+    dio.options.receiveTimeout = const Duration(seconds: 10);
 
-    // 3. Turn the loader ON before communication starts
     loadingNotifier.value = true;
 
     try {
@@ -112,14 +113,55 @@ class Api_Call extends StatelessWidget {
 
     } on DioException catch (e) {
       debugPrint('- ERROR ENCOUNTERED -');
+      handleNetworkError(e);
       debugPrint('Error Status Code: ${e.response?.statusCode}');
       debugPrint('Error Response Body: ${e.response?.data}');
       textNotifier.value = "Post failed!";
     }
 
-    // 4. Turn the loader OFF when communication finishes
     loadingNotifier.value = false;
   }
+
+  void handleNetworkError(DioException error) {
+    if (error.type == DioExceptionType.connectionTimeout) {
+      textNotifier.value = "Connection timed out. Server might be down.";
+    } else if (error.type == DioExceptionType.receiveTimeout) {
+      textNotifier.value = "Server is taking too long to send data.";
+    } else if (error.type == DioExceptionType.connectionError) {
+      textNotifier.value = "No internet connection. Please check your Wi-Fi.";
+    } else if (error.type == DioExceptionType.badResponse) {
+      switch (error.response?.statusCode) {
+        case 400:
+          textNotifier.value = "400 - Bad Request";
+          break;
+
+        case 401:
+          textNotifier.value = "401 - Unauthorized";
+          break;
+
+        case 403:
+          textNotifier.value = "403 - Forbidden";
+          break;
+
+        case 404:
+          textNotifier.value = "404 - Resource Not Found";
+          break;
+
+        case 500:
+          textNotifier.value = "500 - Internal Server Error";
+          break;
+
+        default:
+          textNotifier.value =
+          "Server Error (${error.response?.statusCode})";
+      }
+    }
+    else {
+      textNotifier.value = "Network communication failed. Please retry.";
+    }
+  }
 }
+
+
 
 
