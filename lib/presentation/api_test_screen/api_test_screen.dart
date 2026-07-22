@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../services/api_service.dart'; // Make sure this matches your file name!
+import '../../services/api_service.dart';
 
 class ApiTestScreen extends StatefulWidget {
   const ApiTestScreen({super.key});
@@ -12,12 +12,10 @@ class ApiTestScreen extends StatefulWidget {
 class _ApiTestScreenState extends State<ApiTestScreen> {
   final ApiService _apiService = ApiService();
 
-  // REQUIREMENT: Showing loader while in the network call communication
   bool _isLoading = false;
   String _displayText = 'Tap a button to test the network!';
 
   void _testRequest(bool isGetRequest) async {
-    // 1. Turn on the loader and update the text BEFORE the request starts
     setState(() {
       _isLoading = true;
       _displayText = isGetRequest
@@ -27,15 +25,12 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
 
     String result;
 
-    // 2. Perform the network request using the updated method names
     if (isGetRequest) {
       result = await _apiService.fetchTestPost();
     } else {
-      // Calling the real Evamp & Saanga API
       result = await _apiService.verifyAppVersion();
     }
 
-    // 3. Turn off the loader and display the parsed result AFTER the request finishes
     setState(() {
       _isLoading = false;
       _displayText = result;
@@ -68,7 +63,6 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
               const SizedBox(height: 40),
 
               ElevatedButton(
-                // Disable the button (set to null) if we are currently loading
                 onPressed: _isLoading ? null : () => _testRequest(true),
                 child: const Text('Test GET Request'),
               ),
