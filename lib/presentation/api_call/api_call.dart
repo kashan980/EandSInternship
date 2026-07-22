@@ -66,7 +66,10 @@ class Api_Call extends StatelessWidget {
       debugPrint('${response.statusCode}');
       debugPrint(response.data.toString());
 
-      textNotifier.value = response.data['responseMessage'].toString();
+      textNotifier.value =
+          response.data?['responseMessage']?.toString() ?? "No response message";
+
+      //textNotifier.value = response.data['responseMessage'].toString();
 
     } on DioException catch (e) {
       handleNetworkError(e);
@@ -109,7 +112,10 @@ class Api_Call extends StatelessWidget {
       debugPrint('Status Code: ${response.statusCode}');
       debugPrint('Response Body: ${response.data.toString()}');
 
-      textNotifier.value = response.data['responseMessage'].toString();
+      //textNotifier.value = response.data['responseMessage'].toString();
+
+      textNotifier.value =
+          response.data?['responseMessage']?.toString() ?? "No response message";
 
     } on DioException catch (e) {
       debugPrint('- ERROR ENCOUNTERED -');
