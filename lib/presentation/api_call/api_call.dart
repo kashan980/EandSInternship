@@ -35,6 +35,12 @@ class Api_Call extends StatelessWidget {
                 );
               },
             ),
+            Image.network(
+              "https://animalfactguide.com/wp-content/uploads/2025/03/panda-closeup.jpg",
+              errorBuilder: (context, error, stackTrace) {
+                return const Text("Failed to load image");
+              },
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -167,7 +173,3 @@ class Api_Call extends StatelessWidget {
     }
   }
 }
-
-
-
-
