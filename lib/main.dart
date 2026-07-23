@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key}); // Added a standard key constructor
 
   final _router = GoRouter(
-    routes: $appRoutes,
+   routes: $appRoutes,
     navigatorKey: navigatorKey,
     initialLocation: getAppInitialRouteLocation(),
   );

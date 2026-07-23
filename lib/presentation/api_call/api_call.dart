@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:eandsinternship/models/user_model.dart';
 
 class Api_Call extends StatelessWidget {
   Api_Call({super.key});
@@ -53,7 +56,27 @@ class Api_Call extends StatelessWidget {
                 postData();
               },
               child: Text('Post Data'),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try{
+                  UserModel user = await loadUser();
+
+                  textNotifier.value = '''
+            ID: ${user.id}
+            Name: ${user.name}
+            Email: ${user.email}
+            Active: ${user.isActive}
+              ''';
+
+                }
+                catch(e){
+                  debugPrint("Caught Exception: $e");
+                  textNotifier.value=e.toString();
+                }
+              },
+              child: const Text('Json Data'),
+            ),
           ],
         ),
       ),
@@ -171,5 +194,22 @@ class Api_Call extends StatelessWidget {
     else {
       textNotifier.value = "Network communication failed. Please retry.";
     }
+  }
+}
+Future<UserModel> loadUser() async {
+
+  try{
+    final jsonString =
+    await rootBundle.loadString('assets/json/user.json');
+    final jsonData = json.decode(jsonString);
+    return UserModel.fromJson(jsonData);
+  }
+  on FlutterError{
+    throw Exception("Unable to load JSON file");
+  } on FormatException{
+    throw Exception("Invalid JSON format");
+  }
+  catch(e) {
+    throw Exception("Unexpected error: $e");
   }
 }

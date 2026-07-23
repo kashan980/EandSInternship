@@ -10,44 +10,52 @@ List<RouteBase> get $appRoutes => [$mainScreenRoute, $menuScreenRoute];
 
 RouteBase get $mainScreenRoute => GoRouteData.$route(
   path: '/mainScreenRoute',
-
-  factory: $MainScreenRouteExtension._fromState,
+  factory: $MainScreenRoute._fromState,
 );
 
-extension $MainScreenRouteExtension on MainScreenRoute {
+mixin $MainScreenRoute on GoRouteData {
   static MainScreenRoute _fromState(GoRouterState state) =>
       const MainScreenRoute();
 
+  @override
   String get location => GoRouteData.$location('/mainScreenRoute');
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
 RouteBase get $menuScreenRoute => GoRouteData.$route(
   path: '/menuScreenRoute',
-
-  factory: $MenuScreenRouteExtension._fromState,
+  factory: $MenuScreenRoute._fromState,
 );
 
-extension $MenuScreenRouteExtension on MenuScreenRoute {
+mixin $MenuScreenRoute on GoRouteData {
   static MenuScreenRoute _fromState(GoRouterState state) =>
       const MenuScreenRoute();
 
+  @override
   String get location => GoRouteData.$location('/menuScreenRoute');
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }

@@ -10,18 +10,36 @@ String getAppInitialRouteLocation() {
   return GoRouteData.$location('/mainScreenRoute');
 }
 
+
 @TypedGoRoute<MainScreenRoute>(path: '/mainScreenRoute')
-class MainScreenRoute extends GoRouteData {
+class MainScreenRoute extends GoRouteData with $MainScreenRoute {
   const MainScreenRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>  RouteHelperUtil().getMainScreenWidget();
+  Widget build(BuildContext context, GoRouterState state) =>
+      RouteHelperUtil().getMainScreenWidget();
 }
 
 @TypedGoRoute<MenuScreenRoute>(path: '/menuScreenRoute')
-class MenuScreenRoute extends GoRouteData {
+class MenuScreenRoute extends GoRouteData with $MenuScreenRoute {
   const MenuScreenRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>  RouteHelperUtil().getMenuScreenWidget();
+  Widget build(BuildContext context, GoRouterState state) =>
+      RouteHelperUtil().getMenuScreenWidget();
 }
+// @TypedGoRoute<MainScreenRoute>(path: '/mainScreenRoute')
+// class MainScreenRoute extends GoRouteData {
+//   const MainScreenRoute();
+//
+//   @override
+//   Widget build(BuildContext context, GoRouterState state) =>  RouteHelperUtil().getMainScreenWidget();
+// }
+//
+// @TypedGoRoute<MenuScreenRoute>(path: '/menuScreenRoute')
+// class MenuScreenRoute extends GoRouteData {
+//   const MenuScreenRoute();
+//
+//   @override
+//   Widget build(BuildContext context, GoRouterState state) =>  RouteHelperUtil().getMenuScreenWidget();
+// }
