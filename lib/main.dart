@@ -1,9 +1,11 @@
 import 'dart:ui'; // Added for PlatformDispatcher
 
+import 'package:eandsinternship/presentation/checking_age_provider/checking_age_provider.dart';
 import 'package:firebase_core/firebase_core.dart'; // Added Firebase Core import
 import 'package:firebase_crashlytics/firebase_crashlytics.dart'; // Added Crashlytics import
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import 'config/routes/app_routes.dart';
 import 'firebase_options.dart';
@@ -62,7 +64,8 @@ void main() async {
     return true;
   };
 
-  runApp(MyApp());
+  runApp(
+      ChangeNotifierProvider(create:(_)=>CheckingAgeProvider(),child:MyApp()));
 }
 
 class MyApp extends StatelessWidget {
