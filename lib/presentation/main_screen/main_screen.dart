@@ -1,6 +1,6 @@
 import 'package:eandsinternship/config/routes/app_routes.dart';
 import 'package:eandsinternship/presentation/api_call/api_call.dart';
-import 'package:eandsinternship/presentation/checking_age_provider/checking_age.dart';
+import 'package:eandsinternship/presentation/checking_age_provider/checking_age_screen.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart'; // Added Crashlytics import
 import 'package:flutter/material.dart';
 
