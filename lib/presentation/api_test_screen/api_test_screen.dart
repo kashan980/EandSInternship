@@ -1,41 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Required for State Management
 
-import '../../services/api_service.dart';
+// Make sure this path points correctly to your new Provider file
+import '../../providers/api_provider.dart';
 
-class ApiTestScreen extends StatefulWidget {
+class ApiTestScreen extends StatelessWidget {
   const ApiTestScreen({super.key});
-
-  @override
-  State<ApiTestScreen> createState() => _ApiTestScreenState();
-}
-
-class _ApiTestScreenState extends State<ApiTestScreen> {
-  final ApiService _apiService = ApiService();
-
-  bool _isLoading = false;
-  String _displayText = 'Tap a button to test the network!';
-
-  void _testRequest(bool isGetRequest) async {
-    setState(() {
-      _isLoading = true;
-      _displayText = isGetRequest
-          ? 'Fetching data...'
-          : 'Verifying App Version...';
-    });
-
-    String result;
-
-    if (isGetRequest) {
-      result = await _apiService.fetchTestPost();
-    } else {
-      result = await _apiService.verifyAppVersion();
-    }
-
-    setState(() {
-      _isLoading = false;
-      _displayText = result;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,34 +14,68 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Show the CircularProgressIndicator if _isLoading is true, otherwise show the text
-              if (_isLoading)
-                const CircularProgressIndicator()
-              else
-                Text(
-                  _displayText,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+          // CONSUMER: This widget listens to ApiProvider.
+          // Whenever notifyListeners() is called in the provider, ONLY this Column rebuilds.
+          child: Consumer<ApiProvider>(
+            builder: (context, apiProvider, child) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // 1. STATE READING: Show the spinner or the text based on the Provider's state
+                  if (apiProvider.isLoading)
+                    const CircularProgressIndicator()
+                  else
+                    Text(
+                      apiProvider.displayText,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                  const SizedBox(height: 20),
+
+                  // 2. IMAGE LOADING EXCEPTION: Prevents the app from crashing on broken URLs
+                  Image.network(
+                    'https://tec.evampsaanga.com/broken_logo.png', // A fake/broken URL
+                    height: 100,
+                    width: 100,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 100,
+                        width: 100,
+                        color: Colors.grey[300],
+                        child: const Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
                   ),
-                ),
 
-              const SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
-              ElevatedButton(
-                onPressed: _isLoading ? null : () => _testRequest(true),
-                child: const Text('Test GET Request'),
-              ),
-              const SizedBox(height: 15),
-              ElevatedButton(
-                onPressed: _isLoading ? null : () => _testRequest(false),
-                child: const Text('Test Real API (POST)'),
-              ),
-            ],
+                  // 3. ACTIONS: Triggering the API calls inside the Provider
+                  ElevatedButton(
+                    // If it is already loading, we set onPressed to 'null' to temporarily disable the button
+                    onPressed: apiProvider.isLoading
+                        ? null
+                        : () => apiProvider.testGetRequest(),
+                    child: const Text('Test GET Request'),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  ElevatedButton(
+                    onPressed: apiProvider.isLoading
+                        ? null
+                        : () => apiProvider.testPostRequest(),
+                    child: const Text('Test Real API (POST)'),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

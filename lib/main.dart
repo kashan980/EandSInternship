@@ -2,19 +2,18 @@ import 'dart:ui'; // Added for PlatformDispatcher
 
 import 'package:firebase_core/firebase_core.dart'; // Added Firebase Core import
 import 'package:firebase_crashlytics/firebase_crashlytics.dart'; // Added Crashlytics import
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+// --- NEW PROVIDER IMPORTS ---
+import 'package:provider/provider.dart';
 
 import 'config/routes/app_routes.dart';
 import 'firebase_options.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+import 'providers/api_provider.dart'; // Ensure this path matches where you saved your ApiProvider
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   debugPrint("Background notification received");
 }
@@ -25,9 +24,7 @@ void main() async {
 
   // Initializes Firebase using the configuration for the current platform
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(
-    firebaseMessagingBackgroundHandler,
-  );
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   // Request notification permission
   await FirebaseMessaging.instance.requestPermission(
@@ -45,13 +42,9 @@ void main() async {
     debugPrint("Body: ${message.notification?.body}");
   });
 
-
-
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     debugPrint("User opened the notification");
   });
-
-
 
   // Pass all uncaught "fatal" errors from the Flutter framework to Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -62,7 +55,19 @@ void main() async {
     return true;
   };
 
-  runApp(MyApp());
+  // --- UPGRADED RUN APP WITH PROVIDER ---
+  // Wrapping MyApp in a MultiProvider injects the "Vault" at the very root of the app,
+  // making ApiProvider accessible to every single screen in your GoRouter setup.
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ApiProvider()),
+        // You can easily add more providers here later!
+        // e.g., ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
